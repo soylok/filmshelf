@@ -3,16 +3,14 @@ package models
 import "github.com/soylok/filmshelf/internal/core/domain"
 
 type GenreModel struct {
-	ID      int64  `db:"id"`
-	Name    string `db:"name"`
-	Version int64  `db:"version"`
+	ID   int64  `db:"id"`
+	Name string `db:"name"`
 }
 
 func (g GenreModel) ToDomain() domain.Genre {
 	return domain.Genre{
-		ID:      g.ID,
-		Name:    g.Name,
-		Version: g.Version,
+		ID:   g.ID,
+		Name: g.Name,
 	}
 }
 

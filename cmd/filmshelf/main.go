@@ -11,6 +11,9 @@ import (
 	"github.com/soylok/filmshelf/internal/core/repository/postgres/pool"
 	"github.com/soylok/filmshelf/internal/core/transport/middleware"
 	"github.com/soylok/filmshelf/internal/core/transport/server"
+	authhandler "github.com/soylok/filmshelf/internal/features/auth/adapters/http"
+	authrepo "github.com/soylok/filmshelf/internal/features/auth/adapters/postgres"
+	authsvc "github.com/soylok/filmshelf/internal/features/auth/service"
 	"github.com/soylok/filmshelf/internal/features/catalog/adapters/filesystem/posters"
 	countryhandler "github.com/soylok/filmshelf/internal/features/catalog/adapters/http/countries"
 	directorhandler "github.com/soylok/filmshelf/internal/features/catalog/adapters/http/directors"
@@ -51,6 +54,13 @@ func main() {
 	}
 	defer pool.Close()
 
+	authCfg := authsvc.NewConfigMust()
+	authRepo := authrepo.NewAuthRepository(pool, poolCfg.OpTimeout)
+	authSvc := authsvc.NewAuthService(authRepo, authCfg)
+	authHandler := authhandler.NewAuthHandler(authSvc)
+
+	go authSvc.RunSessionCleanup(logger.WithContext(ctx))
+
 	countryRepo := countryrepo.NewCountryRepository(pool, poolCfg.OpTimeout)
 	countrySvc := countrysvc.NewCountryService(countryRepo)
 	countryHandler := countryhandler.NewCountryHandler(countrySvc)
@@ -69,6 +79,7 @@ func main() {
 	movieHandler := moviehandler.NewMovieHandler(movieSvc, mediaCfg.PostersDir)
 
 	vRouter := server.NewRouter(server.Version1)
+	vRouter.RegisterRoutes(authHandler.Routes())
 	vRouter.RegisterRoutes(countryHandler.Routes())
 	vRouter.RegisterRoutes(directorHandler.Routes())
 	vRouter.RegisterRoutes(genreHandler.Routes())

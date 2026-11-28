@@ -15,7 +15,7 @@ func (repo *DirectorRepository) Create(ctx context.Context, director domain.Dire
 	query := `insert into filmshelf.directors(first_name, last_name, middle_name)
 	values
 		($1, $2, $3)
-	returning id, first_name, last_name, middle_name, version`
+	returning id, first_name, last_name, middle_name`
 	var directorModel models.DirectorModel
 	row := repo.querier.QueryRow(ctx, query, director.FirstName, director.LastName, director.MiddleName)
 	err := row.Scan(
@@ -23,7 +23,6 @@ func (repo *DirectorRepository) Create(ctx context.Context, director domain.Dire
 		&directorModel.FirstName,
 		&directorModel.LastName,
 		&directorModel.MiddleName,
-		&directorModel.Version,
 	)
 	if err != nil {
 		return domain.Director{}, fmt.Errorf("scan director: %w", err)

@@ -7,7 +7,6 @@ type DirectorDTO struct {
 	FirstName  string  `json:"first_name"`
 	LastName   string  `json:"last_name"`
 	MiddleName *string `json:"middle_name"`
-	Version    int64   `json:"version"`
 }
 
 type DirectorCreateRequest struct {
@@ -22,7 +21,6 @@ func DirectorToDTO(director domain.Director) DirectorDTO {
 		FirstName:  director.FirstName,
 		LastName:   director.LastName,
 		MiddleName: director.MiddleName,
-		Version:    director.Version,
 	}
 }
 

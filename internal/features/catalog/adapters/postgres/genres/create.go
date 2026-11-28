@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/soylok/filmshelf/internal/core/domain"
 	"github.com/soylok/filmshelf/internal/features/catalog/adapters/postgres/models"
 	outbound "github.com/soylok/filmshelf/internal/features/catalog/ports/out"
-	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func (repo *GenreRepository) Create(ctx context.Context, genre domain.Genre) (domain.Genre, error) {
@@ -18,13 +18,12 @@ func (repo *GenreRepository) Create(ctx context.Context, genre domain.Genre) (do
 	query := `insert into filmshelf.genres(name)
 	values
 		($1)
-	returning id, name, version`
+	returning id, name`
 	var genreModel models.GenreModel
 	row := repo.querier.QueryRow(ctx, query, genre.Name)
 	err := row.Scan(
 		&genreModel.ID,
 		&genreModel.Name,
-		&genreModel.Version,
 	)
 	if err != nil {
 		var pgErr *pgconn.PgError

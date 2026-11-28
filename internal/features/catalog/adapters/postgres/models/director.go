@@ -7,7 +7,6 @@ type DirectorModel struct {
 	FirstName  string  `db:"first_name"`
 	LastName   string  `db:"last_name"`
 	MiddleName *string `db:"middle_name"`
-	Version    int64   `db:"version"`
 }
 
 func (d DirectorModel) ToDomain() domain.Director {
@@ -16,7 +15,6 @@ func (d DirectorModel) ToDomain() domain.Director {
 		FirstName:  d.FirstName,
 		LastName:   d.LastName,
 		MiddleName: d.MiddleName,
-		Version:    d.Version,
 	}
 }
 

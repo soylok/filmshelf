@@ -10,7 +10,6 @@ type Director struct {
 	FirstName  string
 	LastName   string
 	MiddleName *string
-	Version    int64
 }
 
 func NewDirector(firstName, lastName string, middleName *string) Director {
@@ -19,7 +18,6 @@ func NewDirector(firstName, lastName string, middleName *string) Director {
 		FirstName:  firstName,
 		LastName:   lastName,
 		MiddleName: middleName,
-		Version:    UninitializedVersion,
 	}
 }
 
