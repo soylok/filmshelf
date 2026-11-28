@@ -3,9 +3,8 @@ package dto
 import "github.com/soylok/filmshelf/internal/core/domain"
 
 type GenreDTO struct {
-	ID      int64  `json:"id"`
-	Name    string `json:"name"`
-	Version int64  `json:"version"`
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 type GenreCreateRequest struct {
@@ -14,9 +13,8 @@ type GenreCreateRequest struct {
 
 func GenreToDTO(genre domain.Genre) GenreDTO {
 	return GenreDTO{
-		ID:      genre.ID,
-		Name:    genre.Name,
-		Version: genre.Version,
+		ID:   genre.ID,
+		Name: genre.Name,
 	}
 }
 

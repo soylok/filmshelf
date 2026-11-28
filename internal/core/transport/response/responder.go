@@ -80,6 +80,9 @@ func (resp *Responder) ErrorResponse(err error) {
 
 		case apperrors.ErrPayloadTooLarge:
 			statusCode = http.StatusRequestEntityTooLarge
+
+		case apperrors.ErrInvalidCredentials:
+			statusCode = http.StatusUnauthorized
 		}
 	}
 

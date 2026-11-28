@@ -6,16 +6,14 @@ import (
 )
 
 type Genre struct {
-	ID      int64
-	Name    string
-	Version int64
+	ID   int64
+	Name string
 }
 
 func NewGenre(name string) Genre {
 	return Genre{
-		ID:      UninitializedID,
-		Name:    name,
-		Version: UninitializedVersion,
+		ID:   UninitializedID,
+		Name: name,
 	}
 }
 

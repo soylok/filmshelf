@@ -16,8 +16,7 @@ func (repo *DirectorRepository) List(ctx context.Context) ([]domain.Director, er
 		id,
 		first_name,
 		last_name,
-		middle_name,
-		version
+		middle_name
 	from filmshelf.directors
 	order by first_name, last_name, middle_name`
 	rows, err := repo.querier.Query(ctx, query)
@@ -34,7 +33,6 @@ func (repo *DirectorRepository) List(ctx context.Context) ([]domain.Director, er
 			&directorModel.FirstName,
 			&directorModel.LastName,
 			&directorModel.MiddleName,
-			&directorModel.Version,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scan director: %w", err)

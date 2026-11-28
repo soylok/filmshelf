@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/soylok/filmshelf/internal/core/logger"
+	"github.com/soylok/filmshelf/internal/core/transport/helpers"
 	"github.com/soylok/filmshelf/internal/core/transport/response"
-	"github.com/soylok/filmshelf/internal/features/catalog/adapters/http/helpers"
 )
 
 func (h *DirectorHandler) Delete(w http.ResponseWriter, r *http.Request) {

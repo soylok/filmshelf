@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/soylok/filmshelf/internal/core/domain"
 	"github.com/soylok/filmshelf/internal/features/catalog/adapters/postgres/models"
 	outbound "github.com/soylok/filmshelf/internal/features/catalog/ports/out"
-	"github.com/jackc/pgx/v5"
 )
 
 func (repo *MovieRepository) Get(ctx context.Context, id int64) (domain.Movie, error) {
@@ -39,10 +39,9 @@ func (repo *MovieRepository) Get(ctx context.Context, id int64) (domain.Movie, e
 	)
 	batch.Queue(`select
 		d.id,
-    	d.first_name,
-    	d.last_name,
-    	d.middle_name,
-		d.version
+		d.first_name,
+		d.last_name,
+		d.middle_name
 	from filmshelf.movie_directors md
 	join filmshelf.directors d on d.id = md.director_id
 	where md.movie_id = $1
@@ -51,8 +50,7 @@ func (repo *MovieRepository) Get(ctx context.Context, id int64) (domain.Movie, e
 	)
 	batch.Queue(`select
 		g.id,
-		g.name,
-		g.version
+		g.name
 	from filmshelf.movie_genres mg
 	join filmshelf.genres g on g.id = mg.genre_id
 	where mg.movie_id = $1
@@ -108,7 +106,7 @@ func (repo *MovieRepository) Get(ctx context.Context, id int64) (domain.Movie, e
 	}
 	for rows.Next() {
 		var director models.DirectorModel
-		if err := rows.Scan(&director.ID, &director.FirstName, &director.LastName, &director.MiddleName, &director.Version); err != nil {
+		if err := rows.Scan(&director.ID, &director.FirstName, &director.LastName, &director.MiddleName); err != nil {
 			return domain.Movie{}, fmt.Errorf("scan movie director: %w", err)
 		}
 		movieModel.Directors = append(movieModel.Directors, director)
@@ -123,7 +121,7 @@ func (repo *MovieRepository) Get(ctx context.Context, id int64) (domain.Movie, e
 	}
 	for rows.Next() {
 		var genre models.GenreModel
-		if err := rows.Scan(&genre.ID, &genre.Name, &genre.Version); err != nil {
+		if err := rows.Scan(&genre.ID, &genre.Name); err != nil {
 			return domain.Movie{}, fmt.Errorf("scan movie genre: %w", err)
 		}
 		movieModel.Genres = append(movieModel.Genres, genre)

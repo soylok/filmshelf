@@ -6,10 +6,11 @@ import (
 )
 
 var (
-	ErrInvalidArgument = errors.New("invalid argument")
-	ErrNotFound        = errors.New("resource not found")
-	ErrConflict        = errors.New("conflict")
-	ErrPayloadTooLarge = errors.New("payload too large")
+	ErrInvalidArgument    = errors.New("invalid argument")
+	ErrNotFound           = errors.New("resource not found")
+	ErrConflict           = errors.New("conflict")
+	ErrPayloadTooLarge    = errors.New("payload too large")
+	ErrInvalidCredentials = errors.New("invalid credentials")
 )
 
 type Error struct {

@@ -8,8 +8,8 @@ import (
 
 	"github.com/soylok/filmshelf/internal/core/apperrors"
 	"github.com/soylok/filmshelf/internal/core/logger"
+	"github.com/soylok/filmshelf/internal/core/transport/helpers"
 	"github.com/soylok/filmshelf/internal/core/transport/response"
-	"github.com/soylok/filmshelf/internal/features/catalog/adapters/http/helpers"
 )
 
 const (

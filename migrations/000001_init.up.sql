@@ -71,9 +71,3 @@ create table filmshelf.movie_directors (
 
 alter table filmshelf.movies
 add column version integer default 1 not null;
-
-alter table filmshelf.genres
-add column version integer default 1 not null;
-
-alter table filmshelf.directors
-add column version integer default 1 not null;

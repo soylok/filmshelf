@@ -14,8 +14,7 @@ func (repo *GenreRepository) List(ctx context.Context) ([]domain.Genre, error) {
 
 	query := `select
 		id,
-		name,
-		version
+		name
 	from filmshelf.genres
 	order by name`
 	rows, err := repo.querier.Query(ctx, query)
@@ -30,7 +29,6 @@ func (repo *GenreRepository) List(ctx context.Context) ([]domain.Genre, error) {
 		err := rows.Scan(
 			&genreModel.ID,
 			&genreModel.Name,
-			&genreModel.Version,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scan genre: %w", err)
